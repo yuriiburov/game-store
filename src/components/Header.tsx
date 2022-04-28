@@ -6,8 +6,9 @@ import Burger from './Burger';
 import { navigation } from '../data/navigation';
 
 import styles from '../../styles/header.module.scss';
+import { FC } from 'react';
 
-const Header = () => {
+const Header: FC = () => {
   const { pathname } = useRouter();
 
   return (

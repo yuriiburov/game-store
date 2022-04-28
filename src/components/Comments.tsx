@@ -6,8 +6,14 @@ import Comment from './Comment';
 import common from '../../styles/common.module.scss';
 import product from '../../styles/product.module.scss';
 import styles from '../../styles/comments.module.scss';
+import { FC } from 'react';
+import { commentType } from '../../types';
 
-const Comments = ({ comments }) => {
+type CommentsProps = {
+  comments: commentType[];
+};
+
+const Comments: FC<CommentsProps> = ({ comments }) => {
   return (
     <section className={`${product.product__comments} ${styles.comments}`}>
       <textarea

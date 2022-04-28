@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React from 'react';
+import { FC } from 'react';
 import Image from 'next/image';
 
 import styles from '../styles/404.module.scss';
@@ -7,7 +7,7 @@ import styles from '../styles/404.module.scss';
 import brokenJoystick from '../public/broken-joystick.webp';
 import Head from 'next/head';
 
-const Error = () => {
+const Error: FC = () => {
   return (
     <>
       <Head>
@@ -25,8 +25,8 @@ const Error = () => {
           />
           <h1 className={styles.error__code}>404</h1>
           <h2 className={styles.error__text}>Something is going wrong...</h2>
-          <Link href="/" className={styles.error__link}>
-            Back to Main
+          <Link href="/">
+            <a className={styles.error__link}>Back to Main</a>
           </Link>
         </div>
       </main>

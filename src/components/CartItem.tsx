@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
 import styles from '../../styles/cart.module.scss';
 import common from '../../styles/common.module.scss';
@@ -6,7 +6,13 @@ import common from '../../styles/common.module.scss';
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const CartItem = ({ productImg, productName, productPrice }) => {
+type CartItemProps = {
+  productImg: string;
+  productName: string;
+  productPrice: number;
+};
+
+const CartItem: FC<CartItemProps> = ({ productImg, productName, productPrice }) => {
   const [price, setPrice] = useState(productPrice);
   const [amount, setAmount] = useState('1');
 

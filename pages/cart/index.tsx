@@ -6,8 +6,11 @@ import MainLayout from '../../src/components/MainLayout';
 import styles from '../../styles/cart.module.scss';
 import content from '../../styles/cart.module.scss';
 import Head from 'next/head';
+import { GetStaticProps } from 'next';
+import { FC } from 'react';
+import { ICartProduct } from '../../types';
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const response = await fetch('https://61c0aacf33f24c0017823540.mockapi.io/api/v1/tasks');
   const cart = await response.json();
 
@@ -22,7 +25,11 @@ export const getStaticProps = async () => {
   };
 };
 
-const Cart = ({ cart }) => {
+type CartProps = {
+  cart: ICartProduct[];
+};
+
+const Cart: FC<CartProps> = ({ cart }) => {
   return (
     <>
       <Head>

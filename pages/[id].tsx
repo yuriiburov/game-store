@@ -8,8 +8,11 @@ import styles from '../styles/product.module.scss';
 import content from '../styles/content.module.scss';
 import Link from 'next/link';
 import Comments from '../src/components/Comments';
+import { GetServerSideProps } from 'next';
+import { IProduct } from '../types';
+import { FC } from 'react';
 
-export const getServerSideProps = async context => {
+export const getServerSideProps: GetServerSideProps = async context => {
   const { id } = context.params;
   const response = await fetch(
     `https://61c0aacf33f24c0017823540.mockapi.io/api/v1/bankUsers/${id}`
@@ -27,7 +30,11 @@ export const getServerSideProps = async context => {
   };
 };
 
-const Product = ({ product }) => {
+type ProductProps = {
+  product: IProduct;
+};
+
+const Product: FC<ProductProps> = ({ product }) => {
   return (
     <MainLayout>
       <section className={`${content.content__product} ${styles.product}`}>

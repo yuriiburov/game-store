@@ -2,8 +2,9 @@ import styles from '../../styles/pagination.module.scss';
 
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FC } from 'react';
 
-const Pagination = () => {
+const Pagination: FC = () => {
   return (
     <div className={styles.pagination}>
       <div className={styles.pagination__buttons}>

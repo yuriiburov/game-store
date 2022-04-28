@@ -5,8 +5,9 @@ import { navigation } from '../data/navigation';
 
 import { faMagnifyingGlass, faFilter } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FC } from 'react';
 
-const Search = () => {
+const Search: FC = () => {
   const { pathname } = useRouter();
 
   return (

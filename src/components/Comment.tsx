@@ -1,9 +1,17 @@
 import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FC } from 'react';
 
 import styles from '../../styles/comments.module.scss';
 
-const Comment = ({ author, comment, date, time }) => {
+type commentProps = {
+  author: string;
+  comment: string;
+  date: string;
+  time: string;
+};
+
+const Comment: FC<commentProps> = ({ author, comment, date, time }) => {
   return (
     <div className={styles.comment}>
       <h3 className={styles.comment__author}>

@@ -2,17 +2,22 @@ import GalleryPicture from './GalleryPicture';
 
 import styles from '../../styles/gallery.module.scss';
 import productStyles from '../../styles/product.module.scss';
+import { FC } from 'react';
 
-const Gallery = ({ gallery }) => {
+type GalleryProps = {
+  gallery: string;
+};
+
+const Gallery: FC<GalleryProps> = ({ gallery }) => {
   const arrayOfImages = gallery && gallery.split(' ');
 
   const newGallery =
     gallery &&
     arrayOfImages.map((url, i) =>
       i === 0 || i === 10 || i === 14 ? (
-        <GalleryPicture url={url} style={styles.gallery__item_big} />
+        <GalleryPicture key={i} url={url} style={styles.gallery__item_big} />
       ) : (
-        <GalleryPicture url={url} />
+        <GalleryPicture key={i} url={url} />
       )
     );
 

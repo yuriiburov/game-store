@@ -3,8 +3,9 @@ import MainLayout from '../../src/components/MainLayout';
 import styles from '../../styles/create.module.scss';
 import content from '../../styles/content.module.scss';
 import Head from 'next/head';
+import { FC } from 'react';
 
-const Create = () => {
+const Create: FC = () => {
   return (
     <>
       <Head>
@@ -93,7 +94,7 @@ const Create = () => {
                     <legend className={styles.create__bold}>Legal Information</legend>
                     <textarea
                       className={`${styles.create__textarea} ${styles.create__input} ${styles.create__bigTextarea}`}
-                      maxLength="700"
+                      maxLength={700}
                       placeholder="max 700 symbols"
                     ></textarea>
                   </fieldset>

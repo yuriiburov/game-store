@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -9,7 +9,7 @@ import { navigation } from '../data/navigation';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Burger = () => {
+const Burger: FC = () => {
   const [isShowMenu, setIsShowMenu] = useState(false);
 
   const showMenu = {
@@ -17,7 +17,7 @@ const Burger = () => {
     visibility: 'visible',
     right: '15px',
     transition: '0.3s ease-out',
-  };
+  } as React.CSSProperties;
 
   const { pathname } = useRouter();
 

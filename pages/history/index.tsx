@@ -7,8 +7,11 @@ import content from '../../styles/content.module.scss';
 import styles from '../../styles/history.module.scss';
 import cart from '../../styles/cart.module.scss';
 import Head from 'next/head';
+import { GetStaticProps } from 'next';
+import { FC } from 'react';
+import { IHistoryProduct } from '../../types';
 
-export const getStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const response = await fetch('https://61c0aacf33f24c0017823540.mockapi.io/api/v1/users');
   const history = await response.json();
 
@@ -23,7 +26,11 @@ export const getStaticProps = async () => {
   };
 };
 
-const History = ({ history }) => {
+type HistoryProps = {
+  history: IHistoryProduct[];
+};
+
+const History: FC<HistoryProps> = ({ history }) => {
   return (
     <>
       <Head>

@@ -22,15 +22,15 @@ export interface IProduct extends ICartProduct {
   voice?: string;
   screen?: string;
   legalInfo: string;
-  images: string;
-  comments: commentType[];
+  images?: string;
+  comments?: commentType[];
 }
 
 export interface IHistoryProduct extends ICartProduct {
   amount: number;
 }
 
-export type navigationItem = {
+export type navigationItemType = {
   id: string;
   title: string;
   path: string;

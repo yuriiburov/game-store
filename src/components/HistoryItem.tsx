@@ -1,10 +1,21 @@
-import React from 'react';
-
+import { FC } from 'react';
 import styles from '../../styles/history.module.scss';
 import cart from '../../styles/cart.module.scss';
 import common from '../../styles/common.module.scss';
 
-const HistoryItem = ({ productImg, productName, productAmount, productPrice }) => {
+type HistoryItemProps = {
+  productImg: string;
+  productName: string;
+  productAmount: number;
+  productPrice: number;
+};
+
+const HistoryItem: FC<HistoryItemProps> = ({
+  productImg,
+  productName,
+  productAmount,
+  productPrice,
+}) => {
   return (
     <li className={cart.cart__product}>
       <img
