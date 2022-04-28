@@ -1,0 +1,13 @@
+.error {
+  display: grid;
+  height: 100vh;
+
+  &__container {
+    margin: auto;
+    text-align: center;
+  }
+
+  &__img {
+    max-width: 100%;
+  }
+}

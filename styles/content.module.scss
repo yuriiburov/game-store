@@ -1,0 +1,120 @@
+@import './breakpoints.module.scss';
+@import './variables.module.scss';
+
+.content {
+  @include for-laptop-xl {
+    grid-column: 2 / 3;
+  }
+
+  &__head {
+    display: grid;
+    grid-template: 1fr 50px / 1fr 1fr;
+    align-items: center;
+    color: $text-color-dark;
+    margin-bottom: $unit;
+
+    @include for-mobile-s {
+      display: block;
+    }
+
+    @include for-tablet-xl {
+      grid-template: 1fr / 2fr 2fr 3fr;
+      margin-bottom: 0;
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      background-color: $color-white;
+    }
+  }
+
+  &__search {
+    display: grid;
+    grid-template-columns: 29px 1fr;
+    border: thin solid $text-color-transparent-dark;
+    padding: $unit;
+    height: 50px;
+
+    @include for-mobile-s {
+      margin: $unit 0;
+    }
+
+    @include for-tablet-ll {
+      grid-column: 1 / 3;
+    }
+  }
+
+  &__title {
+    @include for-tablet-ll {
+      margin: $unit $unit $unit 0;
+    }
+  }
+
+  &__icon {
+    padding-right: 13px;
+    text-align: center;
+  }
+
+  &__find {
+    border: none;
+
+    &:focus {
+      outline: thin solid transparent;
+    }
+  }
+
+  &__sortSelector {
+    border: none;
+    color: $text-color-dark;
+    margin-right: $unit;
+    background-color: transparent;
+
+    &:focus {
+      outline-color: transparent;
+    }
+  }
+
+  &__iconSort_smallDevice,
+  &__iconSearch_smallDevice {
+    display: none;
+
+    @include for-tablet-ll {
+      display: grid;
+      position: fixed;
+      text-align: center;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      z-index: 5;
+      line-height: 50px;
+    }
+  }
+
+  &__iconSort {
+    width: 21px;
+    margin: auto;
+
+    &_smallDevice {
+      @include for-tablet-ll {
+        bottom: 90px;
+        background-color: $color-purple;
+      }
+    }
+  }
+
+  &__iconSearch {
+    width: 21px;
+    margin: auto;
+
+    &_smallDevice {
+      @include for-tablet-ll {
+        bottom: 20px;
+        background-color: $color-green;
+      }
+    }
+  }
+
+  &__create {
+    padding-top: $unit * 2;
+  }
+}

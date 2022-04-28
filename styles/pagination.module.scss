@@ -1,0 +1,33 @@
+@import './breakpoints.module.scss';
+@import './variables.module.scss';
+
+.pagination {
+  display: grid;
+  justify-content: center;
+  margin-top: $unit * 2;
+
+  &__buttons {
+    display: grid;
+    grid-template: $unit * 2 / repeat(2, $unit * 2);
+    justify-content: space-around;
+    text-align: center;
+    margin-bottom: 7px;
+  }
+
+  &__button {
+    display: grid;
+    border-radius: 50%;
+    border: thin solid $text-color-transparent-dark;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+      background-color: $color-white;
+    }
+  }
+
+  &__icon {
+    width: 9px;
+    margin: auto;
+  }
+}

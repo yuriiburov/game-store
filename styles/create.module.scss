@@ -1,0 +1,193 @@
+@import './breakpoints.module.scss';
+@import './variables.module.scss';
+
+.create {
+  legend {
+    color: $text-color-dark;
+    padding: 0 5px;
+  }
+
+  &__form {
+    @include for-laptop-s {
+      display: grid;
+      grid-template-columns: 4fr 6fr;
+    }
+  }
+
+  &__image {
+    width: 50%;
+    border: 2px dashed $text-color-dark;
+    aspect-ratio: 1 / 1;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+
+    @include for-laptop-s {
+      width: 100%;
+    }
+
+    @include for-mobile-l {
+      width: 100%;
+    }
+  }
+
+  &__input {
+    width: 100%;
+    padding: 7px;
+    font-size: 18px;
+    line-height: 24px;
+    outline-color: $text-color-transparent-dark;
+    transition: 0.3s;
+    margin-top: 5px;
+    margin-bottom: $unit;
+
+    &:focus {
+      outline-color: $text-color-dark;
+    }
+
+    @include for-laptop-s {
+      width: 200px;
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  &__view {
+    margin-left: 0;
+    margin-top: $unit;
+
+    @include for-laptop-s {
+      display: grid;
+      grid-template-rows: repeat(4, auto) 1fr;
+      justify-items: start;
+      align-items: start;
+      margin-left: $unit;
+      margin-top: 0;
+    }
+  }
+
+  &__info {
+    display: grid;
+    gap: $unit;
+
+    @include for-laptop-l {
+      grid-template-columns: auto minmax(auto, 300px);
+    }
+
+    &Main {
+      @include for-laptop-s {
+        display: grid;
+        grid-template-columns: auto minmax(auto, 200px);
+        gap: 10px;
+      }
+    }
+
+    &Additional {
+      margin-bottom: 10px;
+    }
+  }
+
+  &__textarea {
+    resize: vertical;
+    transition: 0s;
+  }
+
+  &__textLang > .create__input {
+    margin-bottom: 0;
+  }
+
+  &__legalInfo {
+    height: 100%;
+
+    &:hover {
+      border-color: $text-color-dark;
+    }
+
+    & > textarea {
+      height: 100%;
+      resize: vertical;
+
+      @include for-laptop-s {
+        resize: both;
+      }
+    }
+  }
+
+  &__bigTextarea {
+    width: 100%;
+    border: transparent;
+
+    &:focus {
+      outline-color: transparent;
+    }
+
+    @include for-laptop-s {
+      width: 100%;
+    }
+  }
+
+  &__name {
+    @include for-laptop-s {
+      margin: $unit 0;
+    }
+  }
+
+  &__price {
+    margin: 10px 0;
+  }
+
+  &__gameInfo {
+    width: 100%;
+    margin-bottom: $unit;
+
+    &:hover {
+      border-color: $text-color-dark;
+    }
+
+    & > textarea {
+      min-height: 50px;
+    }
+
+    @include for-laptop-s {
+      margin-bottom: 0;
+    }
+  }
+
+  &__plusImg {
+    margin-top: 10px;
+    width: 100%;
+
+    &:hover {
+      border-color: $text-color-dark;
+    }
+  }
+
+  &__buttons {
+    @include for-laptop-s {
+      margin-top: 10px;
+    }
+  }
+
+  &__submit {
+    margin-left: auto;
+    margin-top: $unit;
+    width: 180px;
+    height: 50px;
+    cursor: pointer;
+    background-color: $color-purple;
+    border: thin solid $text-color-dark;
+    border-radius: 3px;
+    transition: 0.3s;
+
+    &:hover {
+      transform: scale(1.07);
+      color: $color-purple;
+      background-color: $color-white;
+      border-color: $color-purple;
+    }
+  }
+
+  &__bold {
+    font-weight: 700;
+  }
+}

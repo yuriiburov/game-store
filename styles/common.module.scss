@@ -1,0 +1,52 @@
+@import './variables.module.scss';
+
+.addOrBuyProduct {
+  justify-self: start;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 2px;
+  line-height: 40px;
+  color: $text-color-dark;
+  background-color: $color-purple;
+  border: none;
+  cursor: pointer;
+  padding: 0 20px;
+  transition: 0.4s;
+}
+
+.addOrBuyProduct:hover {
+  transform: scale(1.05);
+}
+
+.gamePrice {
+  font-size: 24px;
+  line-height: $unit * 2;
+  background-color: $color-green;
+}
+
+.buttonSquare {
+  width: 40px;
+  height: 40px;
+  border: thin solid $text-color-dark;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.greenSquareBtn,
+.redSquareBtn {
+  width: 40px;
+  height: 40px;
+  border: thin solid $text-color-dark;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.greenSquareBtn {
+  background-color: $color-green-light;
+}
+
+.redSquareBtn {
+  background-color: $color-red;
+}

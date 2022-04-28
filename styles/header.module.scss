@@ -1,0 +1,120 @@
+@import './breakpoints.module.scss';
+@import './variables.module.scss';
+
+.header {
+  display: grid;
+  grid-area: header;
+  grid-template: 1fr / 1fr minmax(auto, 500px) minmax(auto, 900px) 1fr;
+  align-items: center;
+  padding: 0 22px 0 $unit;
+  background-color: $color-green;
+  color: $text-color-dark;
+
+  @include for-tablet-s {
+    padding-right: 15px;
+  }
+
+  @include for-mobile-s {
+    grid-template: 1fr / 1fr minmax(auto, 500px) 40px 1fr;
+  }
+
+  &__title {
+    grid-column: 2 / 3;
+  }
+
+  &__logo {
+    text-decoration: none;
+    font-size: 33px;
+    color: inherit;
+  }
+
+  &__menu {
+    grid-column: 3 / 4;
+    text-align: right;
+  }
+
+  &__link {
+    display: none;
+
+    @include for-tablet-s {
+      display: grid;
+      font-size: 18px;
+      text-decoration: none;
+      height: 80px;
+      align-items: center;
+      color: inherit;
+      padding: 0 $unit;
+    }
+
+    &:hover {
+      @include for-tablet-s {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__burger {
+    @include for-tablet-s {
+      display: none;
+    }
+
+    &BtnIcon {
+      padding: 5px;
+      width: 41px;
+      margin-left: auto;
+      cursor: pointer;
+    }
+
+    &Icon {
+      font-size: 35px;
+      transition: 0.3s;
+    }
+
+    &Menu {
+      opacity: 0;
+      visibility: hidden;
+      display: grid;
+      position: absolute;
+      right: 0px;
+      width: 200px;
+      margin-top: $unit;
+      padding: $unit 0;
+      background-color: $text-color-dark;
+      border-radius: 4px;
+      z-index: 10;
+
+      &Item {
+        padding: 0 $unit;
+        font-size: 24px;
+        line-height: 33px;
+        cursor: pointer;
+        color: $color-white;
+        text-decoration: none;
+
+        &:hover {
+          background-color: $color-green;
+          color: #333;
+        }
+      }
+    }
+  }
+
+  &__list {
+    @include for-tablet-s {
+      display: grid;
+      grid-auto-flow: column;
+      text-align: center;
+      margin-left: $unit;
+    }
+  }
+}
+
+.active {
+  text-decoration: none;
+  background-color: $color-green-dark;
+}
+
+.activeSmall {
+  background-color: $color-green;
+  color: #333;
+}

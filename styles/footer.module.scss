@@ -1,0 +1,28 @@
+@import './breakpoints.module.scss';
+@import './variables.module.scss';
+
+.footer {
+  display: grid;
+  grid-area: footer;
+  grid-template: 1fr / 1fr minmax(auto, 500px) minmax(auto, 900px) 1fr;
+  align-items: center;
+  padding: $unit;
+  background-color: $color-purple;
+
+  @include for-tablet-xxs {
+    grid-template: 1fr 1fr / 1fr;
+    text-align: center;
+  }
+
+  &__copy {
+    @include for-tablet-xs {
+      grid-column: 2 / 3;
+    }
+  }
+
+  &__text {
+    @include for-tablet-xs {
+      grid-column: 3 / 4;
+    }
+  }
+}

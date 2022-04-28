@@ -1,0 +1,94 @@
+@import './breakpoints.module.scss';
+@import './variables.module.scss';
+
+.comments {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin: 1px;
+
+  @include for-mobile-xl {
+    grid-template-columns: 1fr auto;
+  }
+
+  &__new {
+    resize: vertical;
+    min-height: 100px;
+    border-radius: 5px;
+    border: 2px solid $text-color-transparent-dark;
+    padding: $unit;
+    margin-bottom: 20px;
+    color: $text-color-dark;
+    font-size: 16px;
+    line-height: 20px;
+    outline-color: $color-purple;
+  }
+
+  &__buttons {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 10px;
+
+    @include for-mobile-l {
+      grid-template-columns: 1fr auto;
+    }
+
+    @include for-laptop-xs {
+      padding-right: 85px;
+    }
+  }
+
+  &__btnPost {
+    display: grid;
+    align-self: start;
+
+    @include for-mobile-l {
+      margin-left: auto;
+    }
+
+    &:hover {
+      transform: scale(1.05);
+      color: $color-green-light;
+      background-color: $color-white;
+      border-color: $color-green-light;
+    }
+  }
+
+  &__btnClear {
+    display: grid;
+    align-self: start;
+
+    &:hover {
+      transform: scale(1.05);
+      color: $color-red;
+      background-color: $color-white;
+      border-color: $color-red;
+    }
+  }
+}
+
+.comment {
+  grid-column: 1 / 3;
+  padding: $unit;
+  border-radius: 10px;
+  background-color: #f8f8f8;
+
+  &__author {
+    margin: $unit 0;
+  }
+
+  &__icon {
+    width: 19px;
+    margin: auto;
+  }
+
+  &__text {
+    word-wrap: break-word;
+    margin: $unit 0;
+  }
+
+  &__time {
+    word-spacing: 7px;
+    margin: $unit 0;
+  }
+}

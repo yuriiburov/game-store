@@ -1,0 +1,21 @@
+@import './breakpoints.module.scss';
+
+.wrapper {
+  min-height: 100vh;
+  display: grid;
+  grid-template: 80px 1fr 70px / 1fr;
+  grid-template-areas:
+    'header'
+    'main'
+    'footer';
+}
+
+.main {
+  padding: 0 15px 30px 15px;
+
+  @include for-laptop-xl {
+    display: grid;
+    grid-template: 1fr / 1fr minmax(auto, 1400px) 1fr;
+    grid-area: main;
+  }
+}
