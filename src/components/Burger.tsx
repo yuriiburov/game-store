@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, CSSProperties } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -17,7 +17,7 @@ const Burger: FC = () => {
     visibility: 'visible',
     right: '15px',
     transition: '0.3s ease-out',
-  } as React.CSSProperties;
+  } as CSSProperties;
 
   const { pathname } = useRouter();
 

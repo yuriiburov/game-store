@@ -21,13 +21,16 @@
     display: grid;
     justify-content: center;
     align-items: center;
+    margin: auto;
 
     @include for-laptop-s {
       width: 100%;
+      margin: 0;
     }
 
     @include for-mobile-l {
       width: 100%;
+      margin: 0;
     }
   }
 
@@ -79,6 +82,7 @@
         display: grid;
         grid-template-columns: auto minmax(auto, 200px);
         gap: 10px;
+        margin-top: $unit;
       }
     }
 
@@ -126,11 +130,11 @@
     }
   }
 
-  &__name {
-    @include for-laptop-s {
-      margin: $unit 0;
-    }
-  }
+  // &__name {
+  //   @include for-laptop-s {
+  //     margin-top: $u;
+  //   }
+  // }
 
   &__price {
     margin: 10px 0;

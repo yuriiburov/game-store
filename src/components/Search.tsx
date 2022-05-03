@@ -7,7 +7,12 @@ import { faMagnifyingGlass, faFilter } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FC } from 'react';
 
-const Search: FC = () => {
+type SearchProps = {
+  searchValue: string;
+  setSearchValue: any;
+};
+
+const Search: FC<SearchProps> = ({ searchValue, setSearchValue }) => {
   const { pathname } = useRouter();
 
   return (
@@ -27,7 +32,14 @@ const Search: FC = () => {
       </label>
       <label className={styles.content__search}>
         <FontAwesomeIcon icon={faMagnifyingGlass} className={styles.content__icon} />
-        <input type="text" className={styles.content__find} id="search" placeholder="Search" />
+        <input
+          type="text"
+          className={styles.content__find}
+          id="search"
+          placeholder="Search"
+          value={searchValue}
+          onChange={e => setSearchValue(e.target.value)}
+        />
       </label>
       <label htmlFor="sort" className={styles.content__iconSort_smallDevice}>
         <FontAwesomeIcon icon={faFilter} className={styles.content__iconSort} />

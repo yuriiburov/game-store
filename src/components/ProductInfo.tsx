@@ -5,6 +5,7 @@ import styles from '../../styles/product.module.scss';
 import common from '../../styles/common.module.scss';
 import { IProduct } from '../../types';
 import { FC } from 'react';
+import { addProductToCart } from '../gateway/productGateway';
 
 type ProductInfoProps = {
   product: IProduct;
@@ -65,7 +66,10 @@ const ProductInfo: FC<ProductInfoProps> = ({ product }) => {
             <aside className={styles.product__infoAdditional}>{legalInfo}</aside>
           </div>
           <span className={`${styles.product__price} ${common.gamePrice}`}>{price}$</span>
-          <button className={`${styles.product__add} ${common.addOrBuyProduct}`}>
+          <button
+            className={`${styles.product__add} ${common.addOrBuyProduct}`}
+            onClick={() => addProductToCart(product)}
+          >
             Add to Cart
           </button>
           <label htmlFor="comment" className={styles.product__commentGo}>

@@ -11,6 +11,7 @@ export interface ICartProduct {
   name: string;
   image: string;
   price: number;
+  pageId?: string;
 }
 
 export interface IProduct extends ICartProduct {
@@ -28,6 +29,7 @@ export interface IProduct extends ICartProduct {
 
 export interface IHistoryProduct extends ICartProduct {
   amount: number;
+  pageId?: string;
 }
 
 export type navigationItemType = {

@@ -5,11 +5,12 @@ import Pagination from '../src/components/Pagination';
 
 import styles from '../styles/products.module.scss';
 import { GetStaticProps } from 'next';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { IProduct } from '../types';
+import { baseProductsUrl } from '../src/gateway/productGateway';
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await fetch('https://61c0aacf33f24c0017823540.mockapi.io/api/v1/bankUsers');
+  const response = await fetch(baseProductsUrl);
   const products = await response.json();
 
   if (!products) {
@@ -23,22 +24,31 @@ export const getStaticProps: GetStaticProps = async () => {
   };
 };
 
-type ProductsProps = {
+type ProductsPageProps = {
   products: IProduct[];
 };
 
-const Products: FC<ProductsProps> = ({ products }) => {
+const Products: FC<ProductsPageProps> = ({ products }) => {
+  const [searchValue, setSearchValue] = useState('');
+
   return (
     <MainLayout>
       <section className={`${styles.content__products} ${styles.products}`}>
-        <Search />
+        <Search searchValue={searchValue} setSearchValue={setSearchValue} />
         <div className={styles.products__items}>
-          {products.map(({ id, image, name, price }) => (
-            <Product key={id} id={id} gameImg={image} gameName={name} gamePrice={price} />
-          ))}
+          {products.map(product => {
+            if (
+              searchValue.length >= 1 &&
+              product.name.toLowerCase().includes(searchValue.toLowerCase())
+            ) {
+              return <Product key={product.id} product={product} />;
+            } else if (searchValue.length < 1) {
+              return <Product key={product.id} product={product} />;
+            }
+          })}
         </div>
-        <Pagination />
       </section>
+      <Pagination />
     </MainLayout>
   );
 };

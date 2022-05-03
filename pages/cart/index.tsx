@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import Search from '../../src/components/Search';
 import CartItem from '../../src/components/CartItem';
 import Pagination from '../../src/components/Pagination';
@@ -7,40 +9,50 @@ import styles from '../../styles/cart.module.scss';
 import content from '../../styles/cart.module.scss';
 import Head from 'next/head';
 import { GetStaticProps } from 'next';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { ICartProduct } from '../../types';
+import { baseCartUrl } from '../../src/gateway/productGateway';
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await fetch('https://61c0aacf33f24c0017823540.mockapi.io/api/v1/tasks');
-  const cart = await response.json();
+  const { data } = await axios.get(baseCartUrl);
 
-  if (!cart) {
+  if (!data) {
     return {
       notFound: true,
     };
   }
 
   return {
-    props: { cart },
+    props: { data },
   };
 };
 
-type CartProps = {
-  cart: ICartProduct[];
+type CartPageProps = {
+  data: ICartProduct[];
 };
 
-const Cart: FC<CartProps> = ({ cart }) => {
+const Cart: FC<CartPageProps> = ({ data }) => {
+  const [cartProducts, setCartProducts] = useState(data);
+
   return (
     <>
       <Head>
-        <title>GameStore | Cart</title>
+        <title>Cart | GameStore</title>
       </Head>
       <MainLayout>
         <section className={`${content.content__cart} ${styles.cart}`}>
           <Search />
           <ul className={styles.cart__products}>
-            {cart.map(({ id, image, name, price }) => (
-              <CartItem key={id} productImg={image} productName={name} productPrice={price} />
+            {cartProducts.map(({ id, image, name, price, pageId }) => (
+              <CartItem
+                key={id}
+                id={id}
+                productImg={image}
+                productName={name}
+                productPrice={price}
+                pageId={pageId}
+                setCartProducts={setCartProducts}
+              />
             ))}
           </ul>
           <Pagination />

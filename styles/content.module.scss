@@ -2,6 +2,9 @@
 @import './variables.module.scss';
 
 .content {
+  display: grid;
+  position: relative;
+
   @include for-laptop-xl {
     grid-column: 2 / 3;
   }

@@ -2,9 +2,13 @@
 @import './variables.module.scss';
 
 .pagination {
-  display: grid;
-  justify-content: center;
-  margin-top: $unit * 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translate(-50%);
 
   &__buttons {
     display: grid;

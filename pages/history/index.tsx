@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 import Search from '../../src/components/Search';
 import HistoryItem from '../../src/components/HistoryItem';
 import Pagination from '../../src/components/Pagination';
@@ -8,51 +10,55 @@ import styles from '../../styles/history.module.scss';
 import cart from '../../styles/cart.module.scss';
 import Head from 'next/head';
 import { GetStaticProps } from 'next';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { IHistoryProduct } from '../../types';
+import { baseHistoryUrl } from '../../src/gateway/productGateway';
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await fetch('https://61c0aacf33f24c0017823540.mockapi.io/api/v1/users');
-  const history = await response.json();
+  const { data } = await axios.get(baseHistoryUrl);
 
-  if (!history) {
+  if (!data) {
     return {
       notFound: true,
     };
   }
 
   return {
-    props: { history },
+    props: { data },
   };
 };
 
-type HistoryProps = {
-  history: IHistoryProduct[];
+type HistoryPageProps = {
+  data: IHistoryProduct[];
 };
 
-const History: FC<HistoryProps> = ({ history }) => {
+const History: FC<HistoryPageProps> = ({ data }) => {
+  const [history, setHistory] = useState(data);
+
   return (
     <>
       <Head>
-        <title>GameStore | History</title>
+        <title>History | GameStore</title>
       </Head>
       <MainLayout>
         <section className={`${content.content__history} ${styles.history}`}>
           <Search />
-          <button className={styles.history__deleteAll}>Delete all History</button>
           <ul className={cart.cart__products}>
-            {history.map(({ id, image, name, amount, price }) => (
+            {history.map(({ id, image, name, amount, price, pageId }) => (
               <HistoryItem
                 key={id}
+                id={id}
                 productImg={image}
                 productName={name}
                 productAmount={amount}
                 productPrice={price}
+                pageId={pageId}
+                setHistory={setHistory}
               />
             ))}
           </ul>
-          <Pagination />
         </section>
+        <Pagination />
       </MainLayout>
     </>
   );

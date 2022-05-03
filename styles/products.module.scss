@@ -5,6 +5,7 @@
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   column-gap: 30px;
   row-gap: 50px;
+  padding-bottom: 60px;
 
   @include for-tablet-xxl {
     grid-auto-rows: 1fr;
@@ -14,8 +15,13 @@
 .products__item {
   display: grid;
   grid-auto-flow: row;
-  grid-template: auto 1fr minmax(40px, auto) / 1fr;
+  grid-template: auto auto minmax(40px, auto) / minmax(auto, 530px);
+  justify-content: center;
   color: #333;
+
+  @include for-laptop-xl {
+    grid-template: auto auto minmax(40px, auto) / minmax(auto, 300px);
+  }
 }
 
 .products__image {

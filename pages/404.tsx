@@ -11,7 +11,7 @@ const Error: FC = () => {
   return (
     <>
       <Head>
-        <title>GameStore | Not Found</title>
+        <title>Not Found | GameStore</title>
       </Head>
       <main className={styles.error}>
         <div className={styles.error__container}>
