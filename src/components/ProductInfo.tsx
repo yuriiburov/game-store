@@ -1,11 +1,10 @@
+import { FC } from 'react';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { addProductToCart } from '../gateway/productGateway';
+import { IProduct } from '../../types';
 import styles from '../../styles/product.module.scss';
 import common from '../../styles/common.module.scss';
-import { IProduct } from '../../types';
-import { FC } from 'react';
-import { addProductToCart } from '../gateway/productGateway';
 
 type ProductInfoProps = {
   product: IProduct;

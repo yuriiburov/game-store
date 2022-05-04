@@ -1,12 +1,9 @@
+import { FC } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-
 import Burger from './Burger';
-
 import { navigation } from '../data/navigation';
-
 import styles from '../../styles/header.module.scss';
-import { FC } from 'react';
 
 const Header: FC = () => {
   const { pathname } = useRouter();
@@ -14,9 +11,7 @@ const Header: FC = () => {
   return (
     <header className={styles.header}>
       <div className={styles.header__title}>
-        <a href="" className={styles.header__logo}>
-          &#127918; GameStore
-        </a>
+        <a className={styles.header__logo}>&#127918; GameStore</a>
       </div>
       <nav className={styles.header__menu}>
         <div className={styles.header__list}>

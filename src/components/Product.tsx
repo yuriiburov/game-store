@@ -1,9 +1,9 @@
+import { FC } from 'react';
+import Link from 'next/link';
+import { addProductToCart } from '../gateway/productGateway';
+import { IProduct } from '../../types';
 import styles from '../../styles/products.module.scss';
 import common from '../../styles/common.module.scss';
-import Link from 'next/link';
-import { FC } from 'react';
-import { IProduct } from '../../types';
-import { addProductToCart } from '../gateway/productGateway';
 
 type ProductProps = {
   product: IProduct;

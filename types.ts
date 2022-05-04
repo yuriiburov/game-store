@@ -7,7 +7,7 @@ export type commentType = {
 };
 
 export interface ICartProduct {
-  id: string;
+  id?: string;
   name: string;
   image: string;
   price: number;
@@ -17,7 +17,7 @@ export interface ICartProduct {
 export interface IProduct extends ICartProduct {
   description: string;
   platforms: string;
-  release: string;
+  release?: string;
   publisher: string;
   genre: string;
   voice?: string;

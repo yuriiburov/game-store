@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ICartProduct, IHistoryProduct } from '../../types';
+import { ICartProduct, IHistoryProduct, IProduct } from '../../types';
 
 export const baseProductsUrl: string =
   'https://61c0aacf33f24c0017823540.mockapi.io/api/v1/bankUsers';
@@ -30,20 +30,18 @@ export const deleteFromCart = (id: string) => {
   axios.delete(`${baseCartUrl}/${id}`);
 };
 
-export const addProductToHistory = (price, productImg, productName, pageId, amount, id): void => {
-  const historyProductData: IHistoryProduct = {
-    id: Date.now().toString(),
-    name: productName,
-    image: productImg,
-    pageId,
-    price,
-    amount,
-  };
-
-  axios.post(baseHistoryUrl, historyProductData);
-  deleteFromCart(id);
+export const addProductToHistory = (product: ICartProduct): void => {
+  axios.post(baseHistoryUrl, product);
 };
 
 export const deleteFromHistory = (id: string) => {
   axios.delete(`${baseHistoryUrl}/${id}`);
+};
+
+export const deleteItem = (url: string, id: string): void => {
+  axios.delete(`${url}/${id}`);
+};
+
+export const createProduct = (data: IProduct) => {
+  axios.post(baseProductsUrl, data);
 };

@@ -1,8 +1,7 @@
+import { FC } from 'react';
 import GalleryPicture from './GalleryPicture';
-
 import styles from '../../styles/gallery.module.scss';
 import productStyles from '../../styles/product.module.scss';
-import { FC } from 'react';
 
 type GalleryProps = {
   gallery: string;

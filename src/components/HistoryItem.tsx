@@ -1,20 +1,19 @@
-import axios from 'axios';
-
 import { FC } from 'react';
+import Link from 'next/link';
+import { baseHistoryUrl, deleteItem } from '../gateway/productGateway';
+import { IHistoryProduct } from '../../types';
 import styles from '../../styles/history.module.scss';
 import cart from '../../styles/cart.module.scss';
 import common from '../../styles/common.module.scss';
-import Link from 'next/link';
-import { baseHistoryUrl, deleteFromHistory } from '../gateway/productGateway';
 
 type HistoryItemProps = {
   id: string;
   productImg: string;
   productName: string;
   productAmount: number;
-  productPrice: number;
+  productPrice: number | string;
   pageId: string;
-  setHistory: any;
+  setHistory: Function;
 };
 
 const HistoryItem: FC<HistoryItemProps> = ({
@@ -26,10 +25,9 @@ const HistoryItem: FC<HistoryItemProps> = ({
   pageId,
   setHistory,
 }) => {
-  const deleteHistoryProduct = async (id: string) => {
-    const { data } = await axios.delete(`${baseHistoryUrl}/${id}`);
-    setHistory(prev => prev.filter(product => product.id !== id));
-    console.log(data);
+  const deleteHistoryProduct = (productId: string) => {
+    deleteItem(baseHistoryUrl, productId);
+    setHistory((prev: IHistoryProduct[]) => prev.filter(product => product.id !== productId));
   };
 
   return (

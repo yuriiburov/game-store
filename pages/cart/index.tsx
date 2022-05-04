@@ -1,17 +1,15 @@
+import { FC, useState } from 'react';
+import { GetStaticProps } from 'next';
+import Head from 'next/head';
 import axios from 'axios';
-
 import Search from '../../src/components/Search';
 import CartItem from '../../src/components/CartItem';
-import Pagination from '../../src/components/Pagination';
 import MainLayout from '../../src/components/MainLayout';
-
+import { baseCartUrl } from '../../src/gateway/productGateway';
+import { ICartProduct } from '../../types';
 import styles from '../../styles/cart.module.scss';
 import content from '../../styles/cart.module.scss';
-import Head from 'next/head';
-import { GetStaticProps } from 'next';
-import { FC, useState } from 'react';
-import { ICartProduct } from '../../types';
-import { baseCartUrl } from '../../src/gateway/productGateway';
+import Pagination from '../../src/components/Pagination';
 
 export const getStaticProps: GetStaticProps = async () => {
   const { data } = await axios.get(baseCartUrl);
@@ -32,7 +30,10 @@ type CartPageProps = {
 };
 
 const Cart: FC<CartPageProps> = ({ data }) => {
-  const [cartProducts, setCartProducts] = useState(data);
+  const itemsPerPage: number = 15;
+  const [cartProducts, setCartProducts] = useState<ICartProduct[]>(data);
+  const [startValue, setStartValue] = useState<number>(0);
+  const [lastValue, setLastValue] = useState<number>(itemsPerPage);
 
   return (
     <>
@@ -43,7 +44,7 @@ const Cart: FC<CartPageProps> = ({ data }) => {
         <section className={`${content.content__cart} ${styles.cart}`}>
           <Search />
           <ul className={styles.cart__products}>
-            {cartProducts.map(({ id, image, name, price, pageId }) => (
+            {cartProducts.slice(startValue, lastValue).map(({ id, image, name, price, pageId }) => (
               <CartItem
                 key={id}
                 id={id}
@@ -55,7 +56,12 @@ const Cart: FC<CartPageProps> = ({ data }) => {
               />
             ))}
           </ul>
-          <Pagination />
+          <Pagination
+            products={cartProducts}
+            setStartValue={setStartValue}
+            setLastValue={setLastValue}
+            itemsPerPage={itemsPerPage}
+          />
         </section>
       </MainLayout>
     </>

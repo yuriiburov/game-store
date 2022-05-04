@@ -1,7 +1,6 @@
+import { FC } from 'react';
 import { faComment } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FC } from 'react';
-
 import styles from '../../styles/comments.module.scss';
 
 type commentProps = {

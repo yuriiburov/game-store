@@ -41,8 +41,7 @@
     line-height: 24px;
     outline-color: $text-color-transparent-dark;
     transition: 0.3s;
-    margin-top: 5px;
-    margin-bottom: $unit;
+    resize: none;
 
     &:focus {
       outline-color: $text-color-dark;
@@ -78,11 +77,21 @@
     }
 
     &Main {
+      display: grid;
+
+      b {
+        margin-top: $unit;
+      }
+
       @include for-laptop-s {
         display: grid;
         grid-template-columns: auto minmax(auto, 200px);
         gap: 10px;
         margin-top: $unit;
+
+        b {
+          margin-top: 0;
+        }
       }
     }
 
@@ -92,7 +101,7 @@
   }
 
   &__textarea {
-    resize: vertical;
+    resize: none;
     transition: 0s;
   }
 
@@ -120,6 +129,7 @@
   &__bigTextarea {
     width: 100%;
     border: transparent;
+    resize: none;
 
     &:focus {
       outline-color: transparent;
@@ -185,13 +195,88 @@
 
     &:hover {
       transform: scale(1.07);
+    }
+
+    &:active {
       color: $color-purple;
       background-color: $color-white;
       border-color: $color-purple;
+      transition: 0s;
+    }
+
+    &:disabled {
+      background-color: $color-white;
+      color: $color-red;
+      border-color: $color-red;
+    }
+
+    @include for-tablet-xxs {
+      width: 100%;
     }
   }
 
   &__bold {
     font-weight: 700;
+  }
+
+  &__gallery {
+    display: grid;
+  }
+
+  &__galleryInput {
+    width: 100%;
+  }
+
+  &__galleryItem {
+    display: grid;
+    grid-template-columns: 1fr 52px;
+    align-items: center;
+    margin-top: 15px;
+    width: 100%;
+
+    &:hover .create__galleryRemove {
+      visibility: visible;
+    }
+  }
+
+  &__galleryRemove {
+    margin-left: auto;
+    visibility: hidden;
+    transition: 0s !important;
+  }
+
+  &__galleryAdd {
+    margin-top: 15px;
+  }
+
+  &__error {
+    color: #ff5952;
+    margin-top: 0;
+    margin-bottom: $unit;
+
+    @include for-laptop-s {
+      margin-bottom: 0;
+    }
+  }
+
+  &__inputContainer {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    margin-top: 15px;
+    gap: 5px;
+  }
+
+  &__inputText {
+    line-height: 42px;
+  }
+
+  &__description {
+    width: 100%;
+    min-height: 200px;
+    margin-top: $unit;
+
+    @include for-laptop-s {
+      margin-top: 0;
+    }
   }
 }

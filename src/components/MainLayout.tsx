@@ -1,8 +1,6 @@
 import { FC, ReactNode } from 'react';
-
 import Header from './Header';
 import Footer from './Footer';
-
 import styles from '../../styles/mainLayout.module.scss';
 import content from '../../styles/content.module.scss';
 

@@ -1,21 +1,13 @@
+import { ChangeEvent, FC, useState } from 'react';
 import axios from 'axios';
-
-import { FC, useState } from 'react';
-
-import styles from '../../styles/cart.module.scss';
-import common from '../../styles/common.module.scss';
-
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
-import {
-  addProductToHistory,
-  baseHistoryUrl,
-  deleteFromCart,
-  getCart,
-} from '../gateway/productGateway';
+import { deleteItem, addProductToHistory } from '../gateway/productGateway';
 import { baseCartUrl } from '../gateway/productGateway';
-import { IHistoryProduct } from '../../types';
+import { ICartProduct, IHistoryProduct } from '../../types';
+import styles from '../../styles/cart.module.scss';
+import common from '../../styles/common.module.scss';
 
 type CartItemProps = {
   id: string;
@@ -34,26 +26,21 @@ const CartItem: FC<CartItemProps> = ({
   pageId,
   setCartProducts,
 }) => {
-  const [price, setPrice] = useState(productPrice);
-  const [amount, setAmount] = useState('1');
+  const [price, setPrice] = useState<number>(productPrice);
+  const [amount, setAmount] = useState<string>('1');
 
-  const handleAmountChange = e => {
+  const handleAmountChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newAmount = e.target.value;
     setAmount(newAmount);
     setPrice(Number(newAmount) * productPrice);
   };
 
-  const deleteCartProduct = async (id: string) => {
-    try {
-      const { data } = await axios.delete(`${baseCartUrl}/${id}`);
-      setCartProducts(prev => prev.filter(product => product.id !== id));
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+  const deleteCartProduct = (id: string) => {
+    deleteItem(baseCartUrl, id);
+    setCartProducts((prev: ICartProduct[]) => prev.filter(product => product.id !== id));
   };
 
-  const addProductToHistory = async () => {
+  const addHistoryProduct = () => {
     const historyProductData: IHistoryProduct = {
       id: Date.now().toString(),
       name: productName,
@@ -63,8 +50,7 @@ const CartItem: FC<CartItemProps> = ({
       amount: Number(amount),
     };
 
-    axios.post(baseHistoryUrl, historyProductData);
-
+    addProductToHistory(historyProductData);
     deleteCartProduct(id);
   };
 
@@ -102,7 +88,7 @@ const CartItem: FC<CartItemProps> = ({
         </button>
         <button
           className={`${styles.cart__buy} ${common.greenSquareBtn}`}
-          onClick={addProductToHistory}
+          onClick={addHistoryProduct}
         >
           Buy
         </button>

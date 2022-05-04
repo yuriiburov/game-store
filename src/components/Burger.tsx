@@ -1,16 +1,13 @@
 import { FC, useState, CSSProperties } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-
-import styles from '../../styles/header.module.scss';
-
-import { navigation } from '../data/navigation';
-
+import Link from 'next/link';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { navigation } from '../data/navigation';
+import styles from '../../styles/header.module.scss';
 
 const Burger: FC = () => {
-  const [isShowMenu, setIsShowMenu] = useState(false);
+  const [isShowMenu, setIsShowMenu] = useState<boolean>(false);
 
   const showMenu = {
     opacity: '1',

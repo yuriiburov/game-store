@@ -1,32 +1,31 @@
+import { FC } from 'react';
+import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
+import Head from 'next/head';
+import axios from 'axios';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ProductInfo from '../src/components/ProductInfo';
 import Gallery from '../src/components/Gallery';
 import MainLayout from '../src/components/MainLayout';
-
+import Comments from '../src/components/Comments';
+import { baseProductsUrl } from '../src/gateway/productGateway';
+import { IProduct } from '../types';
 import styles from '../styles/product.module.scss';
 import content from '../styles/content.module.scss';
-import Comments from '../src/components/Comments';
-import { GetServerSideProps } from 'next';
-import { IProduct } from '../types';
-import { FC } from 'react';
-import Head from 'next/head';
-import { baseProductsUrl } from '../src/gateway/productGateway';
-import { useRouter } from 'next/router';
 
 export const getServerSideProps: GetServerSideProps = async context => {
   const { id } = context.params;
-  const response = await fetch(`${baseProductsUrl}/${id}`);
-  const product = await response.json();
+  const { data } = await axios.get(`${baseProductsUrl}/${id}`);
 
-  if (!product) {
+  if (!data) {
     return {
       notFound: true,
     };
   }
 
   return {
-    props: { product },
+    props: { product: data },
   };
 };
 

@@ -1,15 +1,13 @@
-import styles from '../../styles/content.module.scss';
+import { FC } from 'react';
 import { useRouter } from 'next/router';
-
-import { navigation } from '../data/navigation';
-
 import { faMagnifyingGlass, faFilter } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FC } from 'react';
+import { navigation } from '../data/navigation';
+import styles from '../../styles/content.module.scss';
 
 type SearchProps = {
   searchValue: string;
-  setSearchValue: any;
+  setSearchValue?: Function;
 };
 
 const Search: FC<SearchProps> = ({ searchValue, setSearchValue }) => {

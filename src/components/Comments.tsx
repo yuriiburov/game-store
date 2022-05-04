@@ -1,13 +1,11 @@
+import { FC } from 'react';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import Comment from './Comment';
-
+import { commentType } from '../../types';
+import styles from '../../styles/comments.module.scss';
 import common from '../../styles/common.module.scss';
 import product from '../../styles/product.module.scss';
-import styles from '../../styles/comments.module.scss';
-import { FC } from 'react';
-import { commentType } from '../../types';
 
 type CommentsProps = {
   comments: commentType[];

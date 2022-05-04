@@ -1,52 +1,99 @@
+import { ChangeEvent, FC, useState } from 'react';
+import Head from 'next/head';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-
 import MainLayout from '../../src/components/MainLayout';
-
+import CreateGallery from '../../src/components/CreateGallery';
+import { IProduct } from '../../types';
+import { createProduct } from '../../src/gateway/productGateway';
 import styles from '../../styles/create.module.scss';
 import content from '../../styles/content.module.scss';
-import Head from 'next/head';
-import { FC } from 'react';
+
+export type stateValue = { inputValue: string };
 
 const Create: FC = () => {
-  const formik = useFormik({
+  const [galleryValues, setGalleryValues] = useState<stateValue[]>([{ inputValue: '' }]);
+
+  const formik = useFormik<IProduct>({
     initialValues: {
-      mainImage: '',
-      productName: '',
+      image: '',
+      name: '',
       platforms: '',
       publisher: '',
       genre: '',
-      voiceLang: '',
-      textLang: '',
+      voice: '',
+      screen: '',
       legalInfo: '',
-      price: '',
-      gameInfo: '',
-      gallery: '',
+      price: 0,
+      description: '',
     },
     validationSchema: Yup.object({
-      mainImage: Yup.string().url('Invalid url'),
-      productName: Yup.string().max(50, 'Must be 50 characters or less').required('Required'),
+      image: Yup.string().url('Invalid url').required('Required'),
+      name: Yup.string().max(50, 'Must be 50 characters or less').required('Required'),
       platforms: Yup.string().max(30, 'Must be 30 characters or less').required('Required'),
       publisher: Yup.string().max(30, 'Must be 30 characters or less').required('Required'),
       genre: Yup.string().max(30, 'Must be 30 characters or less').required('Required'),
-      voiceLang: Yup.string().max(170, 'Must be 170 characters or less'),
-      textLang: Yup.string().max(170, 'Must be 170 characters or less'),
+      voice: Yup.string().max(170, 'Must be 170 characters or less'),
+      screen: Yup.string().max(170, 'Must be 170 characters or less'),
       legalInfo: Yup.string().max(700, 'Must be 700 characters or less'),
-      price: Yup.number().max(9999999, "Game can't be very expensive").required('Required'),
-      gameInfo: Yup.string().max(1000, "Game can't be very expensive").required('Required'),
-      gallery: Yup.string().max(1000, "Game can't be very expensive").required('Required'),
+      price: Yup.number()
+        .max(9999999, "Game can't be very expensive")
+        .min(0, "we don't pay extra for the sale of the product")
+        .required('Required'),
+      description: Yup.string().max(1000, 'Must be 1000 characters or less').required('Required'),
     }),
-    onSubmit: values => {
-      console.log(values);
+    onSubmit: (values, { resetForm }) => {
+      const gallery = [...galleryValues].map(input => input.inputValue).join(' ');
+      const data = {
+        id: Date.now().toString(),
+        release: Date.now().toString(),
+        images: gallery,
+        comments: [],
+        ...values,
+      };
+
+      createProduct(data);
+      resetForm();
     },
   });
 
-  const setInitHeight = (event, defaultHeight = '64px') => {
+  const setInitHeight = (event: ChangeEvent<any>, defaultHeight = '64px') => {
     if (event) {
       const target = event.target ? event.target : event;
       target.style.height = defaultHeight;
       target.style.height = `${target.scrollHeight}px`;
     }
+  };
+
+  const changeBtn = () => {
+    if (
+      formik.values.price === 0 &&
+      Object.values(formik.values)
+        .filter(el => typeof el === 'string')
+        .every(value => value === '') &&
+      galleryValues.map(({ inputValue }) => inputValue).every(value => value === '')
+    ) {
+      return (
+        <button disabled type="submit" className={styles.create__submit}>
+          {"Can't send data, Your form is empty"}
+        </button>
+      );
+    } else if (
+      !(formik.isValid && formik.dirty) ||
+      galleryValues.length < 4 ||
+      galleryValues.map(({ inputValue }) => inputValue).some(value => value === '')
+    ) {
+      return (
+        <button disabled type="submit" className={styles.create__submit}>
+          {"Can't send data, Your form is not valid"}
+        </button>
+      );
+    }
+    return (
+      <button type="submit" className={styles.create__submit}>
+        Create
+      </button>
+    );
   };
 
   return (
@@ -57,45 +104,48 @@ const Create: FC = () => {
       <MainLayout>
         <section className={`${content.content__create} ${styles.create}`}>
           <form className={styles.create__form} onSubmit={formik.handleSubmit}>
-            <div className={styles.create__image}>
-              <label>
-                <b>Main Image Url </b>
-                <input
-                  name="mainImage"
-                  type="url"
-                  placeholder="Preferably a square"
-                  className={styles.create__input}
-                  onBlur={formik.handleBlur}
-                  onChange={formik.handleChange}
-                  value={formik.values.mainImage}
-                />
-                {formik.touched.mainImage && formik.errors.mainImage && (
-                  <p style={{ color: '#ff5952', margin: 0 }}>{formik.errors.mainImage}</p>
-                )}
+            <div>
+              <label className={styles.create__image}>
+                <div>
+                  <b>Main Image Url </b>
+                  <input
+                    name="image"
+                    type="url"
+                    placeholder="Preferably a square"
+                    className={styles.create__input}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.image}
+                  />
+                  {formik.touched.image && formik.errors.image && (
+                    <p className={styles.create__error}>{formik.errors.image}</p>
+                  )}
+                </div>
               </label>
+              <fieldset className={styles.create__plusImg}>
+                <legend className={styles.create__bold}>Images for gallery</legend>
+                <CreateGallery galleryValues={galleryValues} setGalleryValues={setGalleryValues} />
+              </fieldset>
+              {galleryValues.length < 4 && <p className={styles.create__error}>min 4 urls</p>}
+              {galleryValues.map(({ inputValue }) => inputValue).some(value => value === '') && (
+                <p className={styles.create__error}>{"fields can't be empty"}</p>
+              )}
             </div>
             <div className={styles.create__view}>
-              <label
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'auto 1fr',
-                  marginTop: '15px',
-                  gap: '5px',
-                }}
-              >
-                <b style={{ lineHeight: '42px' }}>The Name of the Game</b>
+              <label className={styles.create__inputContainer}>
+                <b className={styles.create__inputText}>The Name of the Game</b>
                 <div>
                   <input
-                    name="productName"
+                    name="name"
                     type="text"
                     className={`${styles.create__name} ${styles.create__input}`}
                     placeholder="..."
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
-                    value={formik.values.productName}
+                    value={formik.values.name}
                   />
-                  {formik.touched.productName && formik.errors.productName && (
-                    <p style={{ color: '#ff5952', margin: 0 }}>{formik.errors.productName}</p>
+                  {formik.touched.name && formik.errors.name && (
+                    <p className={styles.create__error}>{formik.errors.name}</p>
                   )}
                 </div>
               </label>
@@ -116,7 +166,7 @@ const Create: FC = () => {
                       value={formik.values.platforms}
                     />
                     {formik.touched.platforms && formik.errors.platforms && (
-                      <p style={{ color: '#ff5952', margin: 0 }}>{formik.errors.platforms}</p>
+                      <p className={styles.create__error}>{formik.errors.platforms}</p>
                     )}
                   </span>
                   <b>
@@ -134,7 +184,7 @@ const Create: FC = () => {
                       value={formik.values.publisher}
                     />
                     {formik.touched.publisher && formik.errors.publisher && (
-                      <p style={{ color: '#ff5952', margin: 0 }}>{formik.errors.publisher}</p>
+                      <p className={styles.create__error}>{formik.errors.publisher}</p>
                     )}
                   </span>
                   <b>
@@ -152,47 +202,47 @@ const Create: FC = () => {
                       value={formik.values.genre}
                     />
                     {formik.touched.genre && formik.errors.genre && (
-                      <p style={{ color: '#ff5952', margin: 0 }}>{formik.errors.genre}</p>
+                      <p className={styles.create__error}>{formik.errors.genre}</p>
                     )}
                   </span>
                   <b>
-                    <label htmlFor="voiceLang">Voice language: </label>
+                    <label htmlFor="voice">Voice language: </label>
                   </b>
-                  <span className={styles.create__voiceLang}>
+                  <span className={styles.create__voice}>
                     <textarea
-                      name="voiceLang"
+                      name="voice"
                       className={`${styles.create__textarea} ${styles.create__input}`}
                       placeholder="f.e. English, Ukrainian"
-                      id="voiceLang"
+                      id="voice"
                       onBlur={formik.handleBlur}
                       onChange={e => {
                         formik.handleChange(e);
                         setInitHeight(e);
                       }}
-                      value={formik.values.voiceLang}
+                      value={formik.values.voice}
                     />
-                    {formik.touched.voiceLang && formik.errors.voiceLang && (
-                      <p style={{ color: '#ff5952', margin: 0 }}>{formik.errors.voiceLang}</p>
+                    {formik.touched.voice && formik.errors.voice && (
+                      <p className={styles.create__error}>{formik.errors.voice}</p>
                     )}
                   </span>
                   <b>
-                    <label htmlFor="textLang">Text languages: </label>
+                    <label htmlFor="screen">Text languages: </label>
                   </b>
-                  <span className={styles.create__textLang}>
+                  <span className={styles.create__screen}>
                     <textarea
-                      name="textLang"
+                      name="screen"
                       className={`${styles.create__textarea} ${styles.create__input}`}
                       placeholder="f.e. English, Ukrainian"
-                      id="textLang"
+                      id="screen"
                       onBlur={formik.handleBlur}
                       onChange={e => {
                         formik.handleChange(e);
                         setInitHeight(e);
                       }}
-                      value={formik.values.textLang}
+                      value={formik.values.screen}
                     />
-                    {formik.touched.textLang && formik.errors.textLang && (
-                      <p style={{ color: '#ff5952', margin: 0 }}>{formik.errors.textLang}</p>
+                    {formik.touched.screen && formik.errors.screen && (
+                      <p className={styles.create__error}>{formik.errors.screen}</p>
                     )}
                   </span>
                 </div>
@@ -202,7 +252,6 @@ const Create: FC = () => {
                     <textarea
                       name="legalInfo"
                       className={`${styles.create__textarea} ${styles.create__input} ${styles.create__bigTextarea}`}
-                      maxLength={700}
                       placeholder="max 700 symbols"
                       onBlur={formik.handleBlur}
                       onChange={e => {
@@ -213,20 +262,13 @@ const Create: FC = () => {
                     />
                   </fieldset>
                   {formik.touched.legalInfo && formik.errors.legalInfo && (
-                    <p style={{ color: '#ff5952', margin: 0 }}>{formik.errors.legalInfo}</p>
+                    <p className={styles.create__error}>{formik.errors.legalInfo}</p>
                   )}
                 </div>
               </div>
               <span className={styles.create__price}>
-                <label
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'auto 1fr',
-                    marginTop: '15px',
-                    gap: '5px',
-                  }}
-                >
-                  <b style={{ lineHeight: '42px' }}>$ </b>
+                <label className={styles.create__inputContainer}>
+                  <b className={styles.create__inputText}>$ </b>
                   <div>
                     <input
                       name="price"
@@ -238,15 +280,15 @@ const Create: FC = () => {
                       value={formik.values.price}
                     />
                     {formik.touched.price && formik.errors.price && (
-                      <p style={{ color: '#ff5952', margin: 0 }}>{formik.errors.price}</p>
+                      <p className={styles.create__error}>{formik.errors.price}</p>
                     )}
                   </div>
                 </label>
               </span>
-              <fieldset className={styles.create__gameInfo}>
+              <fieldset className={styles.create__description}>
                 <legend className={styles.create__bold}>Game Information</legend>
                 <textarea
-                  name="gameInfo"
+                  name="description"
                   className={`${styles.create__input} ${styles.create__textarea} ${styles.create__bigTextarea}`}
                   placeholder="..."
                   onBlur={formik.handleBlur}
@@ -254,32 +296,13 @@ const Create: FC = () => {
                     formik.handleChange(e);
                     setInitHeight(e);
                   }}
-                  value={formik.values.gameInfo}
+                  value={formik.values.description}
                 />
               </fieldset>
-              {formik.touched.gameInfo && formik.errors.gameInfo && (
-                <p style={{ color: '#ff5952', margin: 0 }}>{formik.errors.gameInfo}</p>
+              {formik.touched.description && formik.errors.description && (
+                <p className={styles.create__error}>{formik.errors.description}</p>
               )}
-              <fieldset className={styles.create__plusImg}>
-                <legend className={styles.create__bold}>Images for Gallery</legend>
-                <textarea
-                  name="gallery"
-                  className={`${styles.create__input} ${styles.create__textarea} ${styles.create__bigTextarea}`}
-                  placeholder="Importantly! Links must be separated by a spaces or start on a new line"
-                  onBlur={formik.handleBlur}
-                  onChange={e => {
-                    formik.handleChange(e);
-                    setInitHeight(e);
-                  }}
-                  value={formik.values.gallery}
-                />
-              </fieldset>
-              {formik.touched.gallery && formik.errors.gallery && (
-                <p style={{ color: '#ff5952', margin: 0 }}>{formik.errors.gallery}</p>
-              )}
-              <button type="submit" className={styles.create__submit}>
-                Create
-              </button>
+              {changeBtn()}
             </div>
           </form>
         </section>
