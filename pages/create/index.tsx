@@ -40,7 +40,7 @@ const Create: FC = () => {
         .max(9999999, "Game can't be very expensive")
         .min(0, "we don't pay extra for the sale of the product")
         .required('Required'),
-      description: Yup.string().max(1000, 'Must be 1000 characters or less').required('Required'),
+      description: Yup.string().max(700, 'Must be 700 characters or less').required('Required'),
     }),
     onSubmit: (values, { resetForm }) => {
       const gallery = [...galleryValues].map(input => input.inputValue).join(' ');

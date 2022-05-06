@@ -11,6 +11,7 @@ import { IHistoryProduct } from '../../types';
 import styles from '../../styles/history.module.scss';
 import content from '../../styles/content.module.scss';
 import cart from '../../styles/cart.module.scss';
+import sortedFilteredProducts from '../../src/data/sortedFilteredProducts';
 
 export const getStaticProps: GetStaticProps = async () => {
   const { data } = await axios.get(baseHistoryUrl);
@@ -31,10 +32,28 @@ type HistoryPageProps = {
 };
 
 const History: FC<HistoryPageProps> = ({ data }) => {
-  const itemsPerPage: number = 15;
   const [history, setHistory] = useState<IHistoryProduct[]>(data);
+  const [searchValue, setSearchValue] = useState<string>('');
+  const itemsPerPage: number = 15;
   const [startValue, setStartValue] = useState<number>(0);
   const [lastValue, setLastValue] = useState<number>(itemsPerPage);
+
+  const [sortBy, setSortBy] = useState<string>('new');
+
+  const readyHistory: any[] = sortedFilteredProducts(history, searchValue, sortBy).map(
+    ({ id, image, name, amount, price, pageId }) => (
+      <HistoryItem
+        key={id}
+        id={id}
+        productImg={image}
+        productName={name}
+        productAmount={amount}
+        productPrice={price}
+        pageId={pageId}
+        setHistory={setHistory}
+      />
+    )
+  );
 
   return (
     <>
@@ -43,30 +62,19 @@ const History: FC<HistoryPageProps> = ({ data }) => {
       </Head>
       <MainLayout>
         <section className={`${content.content__history} ${styles.history}`}>
-          <Search />
+          <Search searchValue={searchValue} setSearchValue={setSearchValue} setSortBy={setSortBy} />
           <ul className={cart.cart__products}>
-            {history
-              .slice(startValue, lastValue)
-              .map(({ id, image, name, amount, price, pageId }) => (
-                <HistoryItem
-                  key={id}
-                  id={id}
-                  productImg={image}
-                  productName={name}
-                  productAmount={amount}
-                  productPrice={price}
-                  pageId={pageId}
-                  setHistory={setHistory}
-                />
-              ))}
+            {searchValue.length === 0 ? readyHistory.slice(startValue, lastValue) : readyHistory}
           </ul>
         </section>
-        <Pagination
-          products={history}
-          setStartValue={setStartValue}
-          setLastValue={setLastValue}
-          itemsPerPage={itemsPerPage}
-        />
+        {readyHistory.length >= 15 && (
+          <Pagination
+            products={readyHistory}
+            setStartValue={setStartValue}
+            setLastValue={setLastValue}
+            itemsPerPage={itemsPerPage}
+          />
+        )}
       </MainLayout>
     </>
   );

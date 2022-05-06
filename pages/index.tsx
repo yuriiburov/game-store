@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { GetStaticProps } from 'next';
 import axios from 'axios';
 import MainLayout from '../src/components/MainLayout';
@@ -8,6 +8,7 @@ import Pagination from '../src/components/Pagination';
 import { baseProductsUrl } from '../src/gateway/productGateway';
 import { IProduct } from '../types';
 import styles from '../styles/products.module.scss';
+import sortedFilteredProducts from '../src/data/sortedFilteredProducts';
 
 export const getStaticProps: GetStaticProps = async () => {
   const { data } = await axios.get(baseProductsUrl);
@@ -28,34 +29,33 @@ type ProductsPageProps = {
 };
 
 const Products: FC<ProductsPageProps> = ({ products }) => {
-  const itemsPerPage: number = 15;
   const [searchValue, setSearchValue] = useState<string>('');
+  const itemsPerPage: number = 15;
   const [startValue, setStartValue] = useState<number>(0);
   const [lastValue, setLastValue] = useState<number>(itemsPerPage);
+
+  const [sortBy, setSortBy] = useState<string>('new');
+
+  const readyProducts: any[] = sortedFilteredProducts(products, searchValue, sortBy).map(
+    product => <Product key={product.id} product={product} />
+  );
 
   return (
     <MainLayout>
       <section className={`${styles.content__products} ${styles.products}`}>
-        <Search searchValue={searchValue} setSearchValue={setSearchValue} />
+        <Search searchValue={searchValue} setSearchValue={setSearchValue} setSortBy={setSortBy} />
         <div className={styles.products__items}>
-          {products.slice(startValue, lastValue).map((product, i, array) => {
-            if (
-              searchValue.length >= 1 &&
-              product.name.toLowerCase().includes(searchValue.toLowerCase())
-            ) {
-              return <Product key={product.id} product={product} />;
-            } else if (searchValue.length < 1) {
-              return <Product key={product.id} product={product} />;
-            }
-          })}
+          {searchValue.length === 0 ? readyProducts.slice(startValue, lastValue) : readyProducts}
         </div>
       </section>
-      <Pagination
-        products={products}
-        setStartValue={setStartValue}
-        setLastValue={setLastValue}
-        itemsPerPage={itemsPerPage}
-      />
+      {readyProducts.length >= 15 && (
+        <Pagination
+          products={readyProducts}
+          setStartValue={setStartValue}
+          setLastValue={setLastValue}
+          itemsPerPage={itemsPerPage}
+        />
+      )}
     </MainLayout>
   );
 };

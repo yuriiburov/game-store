@@ -231,11 +231,13 @@
     display: grid;
     grid-template-columns: 1fr 52px;
     align-items: center;
-    margin-top: 15px;
+    padding: $unit / 2 0;
     width: 100%;
 
-    &:hover .create__galleryRemove {
-      visibility: visible;
+    @include for-laptop-xs {
+      &:hover .create__galleryRemove {
+        visibility: visible;
+      }
     }
   }
 
@@ -243,6 +245,10 @@
     margin-left: auto;
     visibility: hidden;
     transition: 0s !important;
+
+    @include for-tablet-xxs {
+      visibility: visible;
+    }
   }
 
   &__galleryAdd {

@@ -45,6 +45,20 @@
   line-height: 30px;
   margin-bottom: 20px;
   text-decoration: none;
+  word-wrap: break-word;
+  width: 270px;
+
+  @include for-mobile-m {
+    width: 360px;
+  }
+
+  @include for-mobile-xl {
+    width: 410px;
+  }
+
+  @include for-tablet-xs {
+    width: 250px;
+  }
 }
 
 .products__price {

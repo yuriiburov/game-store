@@ -7,10 +7,11 @@ import styles from '../../styles/content.module.scss';
 
 type SearchProps = {
   searchValue: string;
-  setSearchValue?: Function;
+  setSearchValue: Function;
+  setSortBy: Function;
 };
 
-const Search: FC<SearchProps> = ({ searchValue, setSearchValue }) => {
+const Search: FC<SearchProps> = ({ searchValue, setSearchValue, setSortBy }) => {
   const { pathname } = useRouter();
 
   return (
@@ -20,7 +21,12 @@ const Search: FC<SearchProps> = ({ searchValue, setSearchValue }) => {
       </h1>
       <label>
         <span className={styles.content__sortText}>Sort by</span>
-        <select className={styles.content__sortSelector} id="sort" defaultValue="new">
+        <select
+          onChange={e => setSortBy(e.target.value)}
+          className={styles.content__sortSelector}
+          id="sort"
+          defaultValue="new"
+        >
           <option value="new">Date: newer first</option>
           <option value="old">Date: older first</option>
           <option value="expensive">Price: first expensive</option>

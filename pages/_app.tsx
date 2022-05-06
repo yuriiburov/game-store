@@ -1,10 +1,12 @@
+import { Provider } from 'react-redux';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import NextNProgress from 'nextjs-progressbar';
+import store from '../src/redux/store';
 import '../styles/globals.scss';
 
 const MyApp = ({ Component, pageProps }: AppProps) => (
-  <>
+  <Provider store={store}>
     <Head>
       <title>GameStore</title>
       <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
@@ -24,7 +26,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => (
     </Head>
     <NextNProgress color="#333" startPosition={0.3} stopDelayMs={200} height={3} />
     <Component {...pageProps} />
-  </>
+  </Provider>
 );
 
 export default MyApp;

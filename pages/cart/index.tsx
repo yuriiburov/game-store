@@ -10,6 +10,7 @@ import { ICartProduct } from '../../types';
 import styles from '../../styles/cart.module.scss';
 import content from '../../styles/cart.module.scss';
 import Pagination from '../../src/components/Pagination';
+import sortedFilteredProducts from '../../src/data/sortedFilteredProducts';
 
 export const getStaticProps: GetStaticProps = async () => {
   const { data } = await axios.get(baseCartUrl);
@@ -30,10 +31,27 @@ type CartPageProps = {
 };
 
 const Cart: FC<CartPageProps> = ({ data }) => {
-  const itemsPerPage: number = 15;
   const [cartProducts, setCartProducts] = useState<ICartProduct[]>(data);
+  const [searchValue, setSearchValue] = useState<string>('');
+  const itemsPerPage: number = 15;
   const [startValue, setStartValue] = useState<number>(0);
   const [lastValue, setLastValue] = useState<number>(itemsPerPage);
+
+  const [sortBy, setSortBy] = useState<string>('new');
+
+  const readyCart: any[] = sortedFilteredProducts(cartProducts, searchValue, sortBy).map(
+    ({ id, image, name, price, pageId }) => (
+      <CartItem
+        key={id}
+        id={id}
+        productImg={image}
+        productName={name}
+        productPrice={price}
+        pageId={pageId}
+        setCartProducts={setCartProducts}
+      />
+    )
+  );
 
   return (
     <>
@@ -42,26 +60,19 @@ const Cart: FC<CartPageProps> = ({ data }) => {
       </Head>
       <MainLayout>
         <section className={`${content.content__cart} ${styles.cart}`}>
-          <Search />
+          <Search searchValue={searchValue} setSearchValue={setSearchValue} setSortBy={setSortBy} />
           <ul className={styles.cart__products}>
-            {cartProducts.slice(startValue, lastValue).map(({ id, image, name, price, pageId }) => (
-              <CartItem
-                key={id}
-                id={id}
-                productImg={image}
-                productName={name}
-                productPrice={price}
-                pageId={pageId}
-                setCartProducts={setCartProducts}
-              />
-            ))}
+            {searchValue.length === 0 ? readyCart.slice(startValue, lastValue) : readyCart}
           </ul>
-          <Pagination
-            products={cartProducts}
-            setStartValue={setStartValue}
-            setLastValue={setLastValue}
-            itemsPerPage={itemsPerPage}
-          />
+
+          {readyCart.length >= 15 && (
+            <Pagination
+              products={readyCart}
+              setStartValue={setStartValue}
+              setLastValue={setLastValue}
+              itemsPerPage={itemsPerPage}
+            />
+          )}
         </section>
       </MainLayout>
     </>

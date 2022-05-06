@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { ICartProduct, IHistoryProduct, IProduct } from '../../types';
 import styles from '../../styles/pagination.module.scss';
@@ -23,7 +23,7 @@ const Pagination: FC<PaginationPropsType> = ({
   const handlePageClick = (data: dataType) => {
     const currentPage = data.selected + 1;
     setStartValue(itemsPerPage * currentPage - itemsPerPage);
-    setLastValue(currentPage * itemsPerPage);
+    setLastValue(itemsPerPage * currentPage);
   };
 
   return (
@@ -46,6 +46,7 @@ const Pagination: FC<PaginationPropsType> = ({
       breakLinkClassName={styles.pagination__content}
       activeClassName={styles.pagination__active}
       disabledClassName={styles.pagination__disabled}
+      initialPage={0}
     />
   );
 };
