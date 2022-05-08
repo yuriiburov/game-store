@@ -84,6 +84,12 @@ $laptop-xl: 992px;
   }
 }
 
+@mixin for-tablet-big {
+  @media screen and (max-width: $tablet-xxl - 1) {
+    @content;
+  }
+}
+
 @mixin for-tablet-xxl {
   @media screen and (min-width: $tablet-xxl) {
     @content;

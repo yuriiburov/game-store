@@ -51,7 +51,7 @@ const Product: FC<ProductPageProps> = ({ product }) => {
         </div>
         <ProductInfo product={product} />
         <Gallery gallery={product.images} />
-        <Comments comments={product.comments} />
+        <Comments id={product.id} />
       </section>
     </MainLayout>
   );

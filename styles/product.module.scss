@@ -55,11 +55,49 @@
     grid-template-rows: repeat(4, auto) 1fr;
     justify-items: start;
     align-items: start;
-    margin-left: $unit;
+    justify-content: center;
+
+    @include for-laptop-xs {
+      margin-left: $unit;
+      justify-content: start;
+    }
+  }
+
+  &__name {
+    word-wrap: break-word;
+    width: 90vw;
+
+    @include for-laptop-xs {
+      width: 400px;
+    }
+
+    @include for-laptop-xl {
+      width: 630px;
+    }
   }
 
   &__price {
     margin: $unit 0;
+    word-wrap: break-word;
+  }
+
+  &__platform {
+    word-wrap: break-word;
+  }
+
+  &__company {
+    word-wrap: break-word;
+  }
+
+  &__genre {
+    word-wrap: break-word;
+  }
+
+  &__voiceLang {
+    word-wrap: break-word;
+  }
+
+  &__textLang {
     word-wrap: break-word;
   }
 
@@ -68,7 +106,11 @@
     gap: $unit;
     line-height: 20px;
 
-    @include for-mobile-xl {
+    @include for-tablet-big {
+      grid-template: auto / 90vw;
+    }
+
+    @include for-tablet-xxl {
       grid-template-columns: auto minmax(auto, 300px);
     }
 
@@ -79,7 +121,31 @@
     }
 
     &Additional {
+      display: block;
       word-wrap: break-word;
+
+      @include for-laptop-xs {
+        display: none;
+      }
+
+      @include for-laptop-xl {
+        display: block;
+      }
+
+      &Small {
+        display: none;
+        word-wrap: break-word;
+
+        @include for-laptop-xs {
+          display: block;
+          width: 315px;
+          margin: $unit auto auto auto;
+        }
+
+        @include for-laptop-xl {
+          display: none;
+        }
+      }
     }
 
     &Item {
@@ -107,10 +173,19 @@
   }
 
   &__description {
-    max-width: 800px;
+    max-width: 90vw;
     margin: auto;
     margin-bottom: $unit * 2;
     text-align: center;
+    word-wrap: break-word;
+
+    @include for-tablet-xl {
+      max-width: 600px;
+    }
+
+    @include for-tablet-xxl {
+      max-width: 740px;
+    }
   }
 
   &__comments {

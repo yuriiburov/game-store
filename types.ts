@@ -2,8 +2,7 @@ export type commentType = {
   id: string;
   author: string;
   comment: string;
-  date: string;
-  time: string;
+  date: number;
 };
 
 export interface ICartProduct {
@@ -17,7 +16,7 @@ export interface ICartProduct {
 export interface IProduct extends ICartProduct {
   description: string;
   platforms: string;
-  release?: string;
+  release?: number;
   publisher: string;
   genre: string;
   voice?: string;
@@ -31,6 +30,10 @@ export interface IHistoryProduct extends ICartProduct {
   amount: number;
   pageId?: string;
 }
+
+export type StoreKeysType = {
+  commentsList: object;
+};
 
 export type navigationItemType = {
   id: string;

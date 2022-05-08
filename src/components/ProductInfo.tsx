@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { addProductToCart } from '../gateway/productGateway';
+import dateGenerate from '../data/date';
 import { IProduct } from '../../types';
 import styles from '../../styles/product.module.scss';
 import common from '../../styles/common.module.scss';
@@ -28,11 +29,14 @@ const ProductInfo: FC<ProductInfoProps> = ({ product }) => {
   return (
     <>
       <section className={styles.product__section}>
-        <img
-          src={image}
-          alt="main image"
-          className={`${styles.product__image} ${common.imageSquare}`}
-        />
+        <div>
+          <img
+            src={image}
+            alt="main image"
+            className={`${styles.product__image} ${common.imageSquare}`}
+          />
+          <aside className={styles.product__infoAdditionalSmall}>{legalInfo}</aside>
+        </div>
         <div className={styles.product__view}>
           <h1 className={styles.product__name}>{name}</h1>
           <div className={styles.product__info}>
@@ -43,7 +47,7 @@ const ProductInfo: FC<ProductInfoProps> = ({ product }) => {
               </span>
               <b>Release Date:</b>
               <span className={`${styles.product__date} ${styles.products__infoItem}`}>
-                {release}
+                {dateGenerate(release)}
               </span>
               <b>Publisher:</b>
               <span className={`${styles.product__company} ${styles.products__infoItem}`}>

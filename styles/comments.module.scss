@@ -12,16 +12,19 @@
   }
 
   &__new {
-    resize: vertical;
+    resize: none;
     min-height: 100px;
     border-radius: 5px;
     border: 2px solid $text-color-transparent-dark;
     padding: $unit;
-    margin-bottom: 20px;
     color: $text-color-dark;
     font-size: 16px;
     line-height: 20px;
     outline-color: $color-purple;
+
+    @include for-mobile-xl {
+      margin-bottom: 20px;
+    }
   }
 
   &__buttons {

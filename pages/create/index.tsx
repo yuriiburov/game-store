@@ -4,8 +4,9 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import MainLayout from '../../src/components/MainLayout';
 import CreateGallery from '../../src/components/CreateGallery';
-import { IProduct } from '../../types';
 import { createProduct } from '../../src/gateway/productGateway';
+import growTextarea from '../../src/data/growTextarea';
+import { IProduct } from '../../types';
 import styles from '../../styles/create.module.scss';
 import content from '../../styles/content.module.scss';
 
@@ -46,7 +47,7 @@ const Create: FC = () => {
       const gallery = [...galleryValues].map(input => input.inputValue).join(' ');
       const data = {
         id: Date.now().toString(),
-        release: Date.now().toString(),
+        release: Date.now(),
         images: gallery,
         comments: [],
         ...values,
@@ -56,14 +57,6 @@ const Create: FC = () => {
       resetForm();
     },
   });
-
-  const setInitHeight = (event: ChangeEvent<any>, defaultHeight = '64px') => {
-    if (event) {
-      const target = event.target ? event.target : event;
-      target.style.height = defaultHeight;
-      target.style.height = `${target.scrollHeight}px`;
-    }
-  };
 
   const changeBtn = () => {
     if (
@@ -217,7 +210,7 @@ const Create: FC = () => {
                       onBlur={formik.handleBlur}
                       onChange={e => {
                         formik.handleChange(e);
-                        setInitHeight(e);
+                        growTextarea(e);
                       }}
                       value={formik.values.voice}
                     />
@@ -237,7 +230,7 @@ const Create: FC = () => {
                       onBlur={formik.handleBlur}
                       onChange={e => {
                         formik.handleChange(e);
-                        setInitHeight(e);
+                        growTextarea(e);
                       }}
                       value={formik.values.screen}
                     />
@@ -256,7 +249,7 @@ const Create: FC = () => {
                       onBlur={formik.handleBlur}
                       onChange={e => {
                         formik.handleChange(e);
-                        setInitHeight(e);
+                        growTextarea(e);
                       }}
                       value={formik.values.legalInfo}
                     />
@@ -294,7 +287,7 @@ const Create: FC = () => {
                   onBlur={formik.handleBlur}
                   onChange={e => {
                     formik.handleChange(e);
-                    setInitHeight(e);
+                    growTextarea(e);
                   }}
                   value={formik.values.description}
                 />

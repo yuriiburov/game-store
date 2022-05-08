@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ICartProduct, IProduct } from '../../types';
+import { commentType, ICartProduct, IProduct } from '../../types';
 
 export const baseProductsUrl: string =
   'https://61c0aacf33f24c0017823540.mockapi.io/api/v1/bankUsers';
@@ -36,4 +36,14 @@ export const deleteItem = (url: string, id: string): void => {
 
 export const createProduct = (data: IProduct): void => {
   axios.post(baseProductsUrl, data);
+};
+
+export const putComment = async (id: string, data: object) => {
+  const res = await axios.put(`${baseProductsUrl}/${id}`, data);
+  return res.data;
+};
+
+export const getComments = async (id: string) => {
+  const { data } = await axios.get(`${baseProductsUrl}/${id}`);
+  return data.comments;
 };
