@@ -12,7 +12,7 @@ export const getCart = async () => {
   return data;
 };
 
-export const addProductToCart = (product: ICartProduct): void => {
+export const addProductToCart = async (product: ICartProduct) => {
   const { name, image, price, id } = product;
 
   const cartProductData: ICartProduct = {
@@ -23,7 +23,7 @@ export const addProductToCart = (product: ICartProduct): void => {
     price,
   };
 
-  axios.post(baseCartUrl, cartProductData);
+  return axios.post(baseCartUrl, cartProductData);
 };
 
 export const addProductToHistory = (product: ICartProduct): void => {
