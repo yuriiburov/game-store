@@ -1,4 +1,17 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# GameStore
+
+The tech stack is:
+
+- HTML5
+- BEM Methodology
+- CSS3 (Grid, SASS)
+- Javascript (ES6+)
+- Typescript
+- Next.js
+- React (formik, yup, react-paginate)
+- Redux (thunk)
+
+GameStore - a store where you can sell or buy game discs for playstation
 
 ## Getting Started
 
