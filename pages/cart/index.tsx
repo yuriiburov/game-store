@@ -13,6 +13,8 @@ import Pagination from '../../src/components/Pagination';
 import sortedFilteredProducts from '../../src/data/sortedFilteredProducts';
 import { useSelector } from 'react-redux';
 
+// test
+
 export const getStaticProps: GetStaticProps = async () => {
   const { data } = await axios.get(baseCartUrl);
 
