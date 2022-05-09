@@ -12,6 +12,7 @@ import styles from '../../styles/history.module.scss';
 import content from '../../styles/content.module.scss';
 import cart from '../../styles/cart.module.scss';
 import sortedFilteredProducts from '../../src/data/sortedFilteredProducts';
+import { useSelector } from 'react-redux';
 
 export const getStaticProps: GetStaticProps = async () => {
   const { data } = await axios.get(baseHistoryUrl);
@@ -34,9 +35,7 @@ type HistoryPageProps = {
 const History: FC<HistoryPageProps> = ({ data }) => {
   const [history, setHistory] = useState<IHistoryProduct[]>(data);
   const [searchValue, setSearchValue] = useState<string>('');
-  const itemsPerPage: number = 15;
-  const [startValue, setStartValue] = useState<number>(0);
-  const [lastValue, setLastValue] = useState<number>(itemsPerPage);
+  const { startValue, lastValue, itemsPerPage }: any = useSelector<any>(state => state.pagination);
 
   const [sortBy, setSortBy] = useState<string>('new');
 
@@ -68,12 +67,7 @@ const History: FC<HistoryPageProps> = ({ data }) => {
           </ul>
         </section>
         {readyHistory.length >= 15 && (
-          <Pagination
-            products={readyHistory}
-            setStartValue={setStartValue}
-            setLastValue={setLastValue}
-            itemsPerPage={itemsPerPage}
-          />
+          <Pagination products={readyHistory} itemsPerPage={itemsPerPage} />
         )}
       </MainLayout>
     </>

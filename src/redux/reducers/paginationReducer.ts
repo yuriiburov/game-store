@@ -3,11 +3,13 @@ import { CHANGE_PAGE } from '../actions/paginationAction';
 type paginationInitialValue = {
   startValue: number;
   lastValue: number;
+  itemsPerPage: number;
 };
 
 const initialValue: paginationInitialValue = {
   startValue: 0,
   lastValue: 15,
+  itemsPerPage: 15,
 };
 
 type actionType = {
@@ -15,19 +17,19 @@ type actionType = {
   payload: number;
 };
 
-const itemsPerPage: number = 15;
+// const itemsPerPage: number = 15;
 
-const searchReducer = (state = initialValue, action: actionType) => {
+const paginationReducer = (state = initialValue, action: actionType) => {
   switch (action.type) {
     case CHANGE_PAGE:
       return {
         ...state,
-        startValue: itemsPerPage * action.payload - itemsPerPage,
-        lastValue: itemsPerPage * action.payload,
+        startValue: state.itemsPerPage * action.payload - state.itemsPerPage,
+        lastValue: state.itemsPerPage * action.payload,
       };
     default:
       return state;
   }
 };
 
-export default searchReducer;
+export default paginationReducer;

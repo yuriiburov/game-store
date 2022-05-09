@@ -11,6 +11,7 @@ import styles from '../../styles/cart.module.scss';
 import content from '../../styles/cart.module.scss';
 import Pagination from '../../src/components/Pagination';
 import sortedFilteredProducts from '../../src/data/sortedFilteredProducts';
+import { useSelector } from 'react-redux';
 
 export const getStaticProps: GetStaticProps = async () => {
   const { data } = await axios.get(baseCartUrl);
@@ -33,11 +34,9 @@ type CartPageProps = {
 const Cart: FC<CartPageProps> = ({ data }) => {
   const [cartProducts, setCartProducts] = useState<ICartProduct[]>(data);
   const [searchValue, setSearchValue] = useState<string>('');
-  const itemsPerPage: number = 15;
-  const [startValue, setStartValue] = useState<number>(0);
-  const [lastValue, setLastValue] = useState<number>(itemsPerPage);
-
   const [sortBy, setSortBy] = useState<string>('new');
+
+  const { startValue, lastValue, itemsPerPage }: any = useSelector<any>(state => state.pagination);
 
   const readyCart: any[] = sortedFilteredProducts(cartProducts, searchValue, sortBy).map(
     ({ id, image, name, price, pageId }) => (
@@ -66,12 +65,7 @@ const Cart: FC<CartPageProps> = ({ data }) => {
           </ul>
 
           {readyCart.length >= 15 && (
-            <Pagination
-              products={readyCart}
-              setStartValue={setStartValue}
-              setLastValue={setLastValue}
-              itemsPerPage={itemsPerPage}
-            />
+            <Pagination products={readyCart} itemsPerPage={itemsPerPage} />
           )}
         </section>
       </MainLayout>

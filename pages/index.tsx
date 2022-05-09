@@ -9,6 +9,7 @@ import { baseProductsUrl } from '../src/gateway/productGateway';
 import { IProduct } from '../types';
 import styles from '../styles/products.module.scss';
 import sortedFilteredProducts from '../src/data/sortedFilteredProducts';
+import { useSelector } from 'react-redux';
 
 export const getStaticProps: GetStaticProps = async () => {
   const { data } = await axios.get(baseProductsUrl);
@@ -30,11 +31,9 @@ type ProductsPageProps = {
 
 const Products: FC<ProductsPageProps> = ({ products }) => {
   const [searchValue, setSearchValue] = useState<string>('');
-  const itemsPerPage: number = 15;
-  const [startValue, setStartValue] = useState<number>(0);
-  const [lastValue, setLastValue] = useState<number>(itemsPerPage);
-
   const [sortBy, setSortBy] = useState<string>('new');
+
+  const { startValue, lastValue, itemsPerPage }: any = useSelector<any>(state => state.pagination);
 
   const readyProducts: any[] = sortedFilteredProducts(products, searchValue, sortBy).map(
     product => <Product key={product.id} product={product} />
@@ -49,12 +48,7 @@ const Products: FC<ProductsPageProps> = ({ products }) => {
         </div>
       </section>
       {readyProducts.length >= 15 && (
-        <Pagination
-          products={readyProducts}
-          setStartValue={setStartValue}
-          setLastValue={setLastValue}
-          itemsPerPage={itemsPerPage}
-        />
+        <Pagination products={readyProducts} itemsPerPage={itemsPerPage} />
       )}
     </MainLayout>
   );

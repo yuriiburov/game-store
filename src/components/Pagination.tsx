@@ -2,28 +2,33 @@ import { FC, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import { ICartProduct, IHistoryProduct, IProduct } from '../../types';
 import styles from '../../styles/pagination.module.scss';
+import { useDispatch } from 'react-redux';
+import { paginationAction } from '../redux/actions/paginationAction';
 
 type PaginationPropsType = {
   products: IProduct[] | ICartProduct[] | IHistoryProduct[];
-  setStartValue: Function;
-  setLastValue: Function;
+  // setStartValue: Function;
+  // setLastValue: Function;
   itemsPerPage: number;
 };
 
 const Pagination: FC<PaginationPropsType> = ({
   products,
-  setStartValue,
-  setLastValue,
+  // setStartValue,
+  // setLastValue,
   itemsPerPage,
 }) => {
+  const dispatch = useDispatch(); //
+
   type dataType = {
     selected: number;
   };
 
   const handlePageClick = (data: dataType) => {
     const currentPage = data.selected + 1;
-    setStartValue(itemsPerPage * currentPage - itemsPerPage);
-    setLastValue(itemsPerPage * currentPage);
+    // setStartValue(itemsPerPage * currentPage - itemsPerPage);
+    // setLastValue(itemsPerPage * currentPage);
+    dispatch(paginationAction(currentPage)); //
   };
 
   return (
@@ -31,6 +36,7 @@ const Pagination: FC<PaginationPropsType> = ({
       previousLabel={'<'}
       nextLabel={'>'}
       breakLabel={'...'}
+      // pageCount={Math.ceil(products.length / itemsPerPage)}
       pageCount={Math.ceil(products.length / itemsPerPage)}
       marginPagesDisplayed={2}
       pageRangeDisplayed={2}
